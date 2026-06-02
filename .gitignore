@@ -1,0 +1,4 @@
+# Archivos compilados y ejecutables
+*.exe
+*.obj
+*.o
