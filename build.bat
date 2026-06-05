@@ -1,0 +1,9 @@
+@echo off
+echo [1] Ensamblando rutinas NASM a 64 bits...
+nasm -f win64 src\rutinas_asm.asm -o src\rutinas_asm.obj
+
+echo [2] Compilando y enlazando archivos C y ASM...
+gcc -Wall -Wextra src\main.c src\logica_juego.c src\rutinas_asm.obj -o src\output\main.exe
+
+echo [3] Compilacion exitosa. Iniciando BitQuest...
+src\output\main.exe
