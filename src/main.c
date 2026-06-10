@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <windows.h>
 #include "logica_juego.h"
 
 extern int es_colision(char caracter);
+
+void ocultar_cursor_y_reset() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+    GetConsoleCursorInfo(hConsole, &cursorInfo);
+    cursorInfo.bVisible = FALSE;
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+    COORD pos = {0, 0};
+    SetConsoleCursorPosition(hConsole, pos);
+}
 
 int main() {
     int px = 1, py = 1; 
@@ -12,12 +23,20 @@ int main() {
     int dx = 0, dy = 0;
 
     cargar_mapa();
+    system("cls");
 
     while (!nivel_completado) {
-        system("cls"); 
+        ocultar_cursor_y_reset(); 
+        
+        printf("=======================================\n");
+        printf("   BitQuest - Escapa del Laberinto     \n");
+        printf("=======================================\n");
         
         imprimir_ventana(px, py);
-        printf("Llaves: %d | WASD = Mover | Q = Salir\n", tiene_llave);
+        
+        printf("=======================================\n");
+        printf(" Llaves: %d/1 | WASD: Mover | Q: Salir\n", tiene_llave);
+        printf("=======================================\n");
         
         dx = 0; dy = 0;
         char tecla = _getch();

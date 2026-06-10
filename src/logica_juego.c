@@ -26,7 +26,17 @@ void imprimir_ventana(int jugador_x, int jugador_y) {
     for (int i = inicio_y; i < inicio_y + 20; i++) {
         for (int j = inicio_x; j < inicio_x + 20; j++) {
             if (i == jugador_y && j == jugador_x) {
-                printf("P");
+                printf("\033[1;32mP\033[0m");
+            } else if (mapa[i][j] == '#') {
+                printf("\033[1;30m#\033[0m");
+            } else if (mapa[i][j] == 'c') {
+                printf("\033[1;33mc\033[0m");
+            } else if (mapa[i][j] == 'K') {
+                printf("\033[1;35mK\033[0m");
+            } else if (mapa[i][j] == 'D') {
+                printf("\033[1;31mD\033[0m");
+            } else if (mapa[i][j] == 'E') {
+                printf("\033[1;36mE\033[0m");
             } else {
                 printf("%c", mapa[i][j]);
             }
