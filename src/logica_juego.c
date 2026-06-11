@@ -2,14 +2,20 @@
 #include "logica_juego.h"
 #include "mapas.h"
 
-extern int es_colision(char caracter);
-
 char mapa[MAP_SIZE][MAP_SIZE];
 
-void cargar_mapa() {
+void cargar_mapa(int nivel, int *px, int *py) {
     for (int i = 0; i < MAP_SIZE; i++) {
         for (int j = 0; j < MAP_SIZE; j++) {
-            mapa[i][j] = nivel1_mapa[i][j];
+            if (nivel == 1) mapa[i][j] = nivel1_mapa[i][j];
+            else if (nivel == 2) mapa[i][j] = nivel2_mapa[i][j];
+            else if (nivel == 3) mapa[i][j] = nivel3_mapa[i][j];
+
+            if (mapa[i][j] == 'P') {
+                *px = j;
+                *py = i;
+                mapa[i][j] = '.';
+            }
         }
     }
 }
@@ -29,8 +35,8 @@ void imprimir_ventana(int jugador_x, int jugador_y) {
                 printf("\033[1;32mP\033[0m");
             } else if (mapa[i][j] == '#') {
                 printf("\033[1;30m#\033[0m");
-            } else if (mapa[i][j] == 'c') {
-                printf("\033[1;33mc\033[0m");
+            } else if (mapa[i][j] == 'M') {
+                printf("\033[1;33mM\033[0m");
             } else if (mapa[i][j] == 'K') {
                 printf("\033[1;35mK\033[0m");
             } else if (mapa[i][j] == 'D') {
