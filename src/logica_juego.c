@@ -1,23 +1,54 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
 #include "logica_juego.h"
 #include "mapas.h"
 
 char mapa[MAP_SIZE][MAP_SIZE];
 
 void cargar_mapa(int nivel, int *px, int *py) {
-    for (int i = 0; i < MAP_SIZE; i++) {
-        for (int j = 0; j < MAP_SIZE; j++) {
-            if (nivel == 1) mapa[i][j] = nivel1_mapa[i][j];
-            else if (nivel == 2) mapa[i][j] = nivel2_mapa[i][j];
-            else if (nivel == 3) mapa[i][j] = nivel3_mapa[i][j];
+    char nombre_archivo[32];
+    // nombre del archivo dinamico:nivel1.txt, nivel2.txt....
+    sprintf(nombre_archivo, "nivel%d.txt", nivel);
 
-            if (mapa[i][j] == 'P') {
+    FILE *file = fopen(nombre_archivo, "r");
+    if (file == NULL) {
+        system("cls");
+        printf("==================================================\n");
+        printf(" ERROR: No se pudo abrir el archivo: %s\n", nombre_archivo);
+        printf(" Asegurate de que el archivo exista en la misma carpeta.\n");
+        printf("==================================================\n");
+        printf("Presiona cualquier tecla para salir...");
+        _getch();
+        exit(1);
+    }
+
+    char linea[128];
+    int fila = 0;
+
+    // Lee linea por linea hasta completar el tamaño del mapa
+    while (fila < MAP_SIZE && fgets(linea, sizeof(linea), file)) {
+        for (int j = 0; j < MAP_SIZE; j++) {
+            // en caso de que la línea del archivo sea más corta de lo esperado o tenga saltos 
+            if (linea[j] == '\n' || linea[j] == '\r' || linea[j] == '\0') {
+                for (int k = j; k < MAP_SIZE; k++) {
+                    mapa[fila][k] = '#'; // Rellena con pared si falta información
+                }
+                break;
+            }
+
+            mapa[fila][j] = linea[j];
+
+            // checa la posición inicial del jugador
+            if (mapa[fila][j] == 'P') {
                 *px = j;
-                *py = i;
-                mapa[i][j] = '.';
+                *py = fila;
+                mapa[fila][j] = '.'; // Reemplaza por suelo caminable
             }
         }
+        fila++;
     }
+    fclose(file);
 }
 
 void imprimir_ventana(int jugador_x, int jugador_y) {

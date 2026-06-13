@@ -12,7 +12,6 @@ static void enable_virtual_terminal() {
     SetConsoleMode(hOut, dwMode);
 }
 
-
 void ocultar_cursor_y_reset() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -44,27 +43,27 @@ int main() {
         if (opt == '1') break;
         if (opt == '2') return 0;
     }
-    // Selección de nivel antes de iniciar el juego
+
+    // Selección de nivel antes de iniciar el juego (del 1 a 10)
     int nivel_seleccionado = 0;
-    while (nivel_seleccionado < 1 || nivel_seleccionado > 3) {
+    while (nivel_seleccionado < 1 || nivel_seleccionado > 10) {
         system("cls");
         printf("=======================================\n");
         printf("      Selecciona el nivel a jugar\n");
         printf("=======================================\n");
-        printf("1) Nivel 1\n");
-        printf("2) Nivel 2\n");
-        printf("3) Nivel 3\n");
-        printf("Ingrese el número del nivel: ");
-        char lv = _getch();
-        if (lv >= '1' && lv <= '3') {
-            nivel_seleccionado = lv - '0';
+        printf(" Ingrese el numero del nivel (1 al 10): ");
+        if (scanf("%d", &nivel_seleccionado) != 1) {
+            nivel_seleccionado = 0;
         }
+        // Limpieza obligatoria del búfer de entrada para evitar saltos en los próximos _getch()
+        while (getchar() != '\n'); 
     }
     nivel_actual = nivel_seleccionado;
 
     system("cls");
 
-    while (nivel_actual <= 3 && !juego_interrumpido) {
+    // El ciclo principal ahora valida hasta el nivel 10
+    while (nivel_actual <= 10 && !juego_interrumpido) {
         int px = 1, py = 1;
         int tiene_llave = 0;
         int nivel_completado = 0;
@@ -159,14 +158,15 @@ int main() {
     }
 
     system("cls");
-    if (!juego_interrumpido && nivel_actual > 3) {
-        long long puntaje_final = calcular_puntaje(monedas_totales_recolectadas, pasos_totales, 3);
+    // Al terminar exitosamente el nivel 10, calcula el puntaje final basado en los 10 niveles
+    if (!juego_interrumpido && nivel_actual > 10) {
+        long long puntaje_final = calcular_puntaje(monedas_totales_recolectadas, pasos_totales, 10);
         printf("=======\n");
         printf("\033[1;32mJuego completado\033[0m\n");
         printf("=================\n");
         printf("\033[1;33mMonedas totales recolectadas: %lld/%lld\033[0m\n", monedas_totales_recolectadas, monedas_totales_juego);
         printf("\033[1;35mPasos totales: %lld\033[0m\n", pasos_totales);
-        printf("Niveles completados: 3\n");
+        printf("Niveles completados: 10\n");
         printf("Puntaje final: %lld\n", puntaje_final);
         printf("=================\n\n");
     } else {
