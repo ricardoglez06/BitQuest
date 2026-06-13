@@ -4,6 +4,15 @@
 #include <windows.h>
 #include "logica_juego.h"
 
+static void enable_virtual_terminal() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD dwMode = 0;
+    GetConsoleMode(hOut, &dwMode);
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(hOut, dwMode);
+}
+
+
 void ocultar_cursor_y_reset() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -15,6 +24,7 @@ void ocultar_cursor_y_reset() {
 }
 
 int main() {
+    enable_virtual_terminal();
     int nivel_actual = 1;
     long long monedas_totales_recolectadas = 0;
     long long monedas_totales_juego = 0;
@@ -42,7 +52,7 @@ int main() {
             ocultar_cursor_y_reset();
 
             printf("=======================================\n");
-            printf("   BitQuest - Nivel: %d                 \n", nivel_actual);
+            printf("\033[1;36m   BitQuest - Nivel: %d \033[0m\n", nivel_actual);
             printf("=======================================\n");
             printf(" Celdas Caminables en el Mapa: %lld\n", celdas_libres_nivel);
             printf("---------------------------------------\n");
@@ -50,8 +60,8 @@ int main() {
             imprimir_ventana(px, py);
 
             printf("=======================================\n");
-            printf(" Llave: %s | Monedas: %lld/%lld\n", tiene_llave ? "Si" : "No", monedas_recolectadas_nivel, total_monedas_nivel);
-            printf(" Pasos: %lld | WASD: Mover | Q: Salir\n", pasos_nivel);
+            printf(" \033[1;32mLlave: %s\033[0m | \033[1;33mMonedas: %lld/%lld\033[0m\n", tiene_llave ? "Si" : "No", monedas_recolectadas_nivel, total_monedas_nivel);
+            printf(" Pasos: \033[1;35m%lld\033[0m | WASD: Mover | Q: Salir\n", pasos_nivel);
             printf("=======================================\n");
 
             int dx = 0, dy = 0;
@@ -107,9 +117,9 @@ int main() {
             monedas_totales_recolectadas += monedas_recolectadas_nivel;
             system("cls");
             printf("=================================\n");
-            printf("Nivel %d completado\n", nivel_actual);
-            printf("Monedas recolectadas: %lld/%lld\n", monedas_recolectadas_nivel, total_monedas_nivel);
-            printf("Pasos realizados: %lld\n", pasos_nivel);
+            printf("\033[1;36mNivel %d completado\033[0m\n", nivel_actual);
+            printf("\033[1;33mMonedas recolectadas: %lld/%lld\033[0m\n", monedas_recolectadas_nivel, total_monedas_nivel);
+            printf("\033[1;35mPasos realizados: %lld\033[0m\n", pasos_nivel);
             printf("=================================\n\n");
             printf("Presiona cualquier tecla para continuar...");
             _getch();
@@ -121,10 +131,10 @@ int main() {
     if (!juego_interrumpido && nivel_actual > 3) {
         long long puntaje_final = calcular_puntaje(monedas_totales_recolectadas, pasos_totales, 3);
         printf("=======\n");
-        printf("Juego completado\n");
+        printf("\033[1;32mJuego completado\033[0m\n");
         printf("=================\n");
-        printf("Monedas totales recolectadas: %lld/%lld\n", monedas_totales_recolectadas, monedas_totales_juego);
-        printf("Pasos totales: %lld\n", pasos_totales);
+        printf("\033[1;33mMonedas totales recolectadas: %lld/%lld\033[0m\n", monedas_totales_recolectadas, monedas_totales_juego);
+        printf("\033[1;35mPasos totales: %lld\033[0m\n", pasos_totales);
         printf("Niveles completados: 3\n");
         printf("Puntaje final: %lld\n", puntaje_final);
         printf("=================\n\n");
