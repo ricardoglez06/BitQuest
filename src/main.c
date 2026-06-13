@@ -31,6 +31,37 @@ int main() {
     long long pasos_totales = 0;
     int juego_interrumpido = 0;
 
+    // Pantalla de inicio
+    while (1) {
+        system("cls");
+        printf("=======================================\n");
+        printf("      Bienvenido a BitQuest!\n");
+        printf("=======================================\n");
+        printf("1) Jugar\n");
+        printf("2) Salir\n");
+        printf("Seleccione una opcion: ");
+        char opt = _getch();
+        if (opt == '1') break;
+        if (opt == '2') return 0;
+    }
+    // Selección de nivel antes de iniciar el juego
+    int nivel_seleccionado = 0;
+    while (nivel_seleccionado < 1 || nivel_seleccionado > 3) {
+        system("cls");
+        printf("=======================================\n");
+        printf("      Selecciona el nivel a jugar\n");
+        printf("=======================================\n");
+        printf("1) Nivel 1\n");
+        printf("2) Nivel 2\n");
+        printf("3) Nivel 3\n");
+        printf("Ingrese el número del nivel: ");
+        char lv = _getch();
+        if (lv >= '1' && lv <= '3') {
+            nivel_seleccionado = lv - '0';
+        }
+    }
+    nivel_actual = nivel_seleccionado;
+
     system("cls");
 
     while (nivel_actual <= 3 && !juego_interrumpido) {
