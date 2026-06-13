@@ -52,11 +52,18 @@ detectar_objeto:
     mov rax, r8
     imul rax, rdx
     add rax, r9
+
     mov r10b, [rcx + rax]
-    cmp r10b, sil
+
+    ; obtener el 5to parámetro (objeto buscado)
+    mov r11, [rsp + 40]
+
+    cmp r10b, r11b
     je .encontrado
+
     mov rax, 0
     ret
+
 .encontrado:
     mov rax, 1
     ret
