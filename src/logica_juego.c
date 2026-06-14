@@ -65,7 +65,7 @@ void imprimir_ventana(int jugador_x, int jugador_y) {
             if (i == jugador_y && j == jugador_x) {
                 printf("\033[1;32mP\033[0m");
             } else if (mapa[i][j] == '#') {
-                printf("\033[1;30m#\033[0m");
+                printf("\033[1;37m█\033[0m");
             } else if (mapa[i][j] == 'M') {
                 printf("\033[1;33mM\033[0m");
             } else if (mapa[i][j] == 'K') {
@@ -74,10 +74,32 @@ void imprimir_ventana(int jugador_x, int jugador_y) {
                 printf("\033[1;31mD\033[0m");
             } else if (mapa[i][j] == 'E') {
                 printf("\033[1;36mE\033[0m");
-            } else {
-                printf("%c", mapa[i][j]);
+            }else if(mapa [i][j] == 'C'){
+                printf("\033[1;31mC\033[0m");
+            }else {
+               printf("%c", mapa[i][j]);
             }
         }
         printf("\n");
     }
+}
+void mover_enemigos(int jugador_x, int jugador_y){
+    int ya_movido[MAP_SIZE][MAP_SIZE] = {0}; //marca cuando ya se movio
+
+    for (int i=0; i<MAP_SIZE; i++){
+        for(int j=0; j < MAP_SIZE; j++){
+            if(mapa[i][j] == 'C' && !ya_movido[i][j]){
+                int nuevo_x = j;
+                int nuevo_y = i;
+                if(jugador_x <j && mapa[i][j-1] == '.')nuevo_x = j-1;
+                else if(jugador_x > j && mapa[i][j+1] == '.')nuevo_x = j+1;
+                else if(jugador_y < i && mapa[i-1][j] == '.')nuevo_y = i-1;
+                else if(jugador_y > i && mapa[i+1][j] == '.')nuevo_y = i+1;
+
+                if (nuevo_x !=j || nuevo_y !=i){
+                    mapa[i][j]='.';
+                    mapa[nuevo_y][nuevo_x]='C';
+                    ya_movido[nuevo_y][nuevo_x]=1;                }
+        }   }
+}
 }

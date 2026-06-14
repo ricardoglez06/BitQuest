@@ -23,6 +23,7 @@ void ocultar_cursor_y_reset() {
 }
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8);
     enable_virtual_terminal();
     int nivel_actual = 1;
     long long monedas_totales_recolectadas = 0;
@@ -137,6 +138,16 @@ int main() {
                         }
                         else {
                             px = nx; py = ny;
+                        }
+                        mover_enemigos(px, py);
+                        if (mapa[py][px] == 'C') {
+                            system("cls");
+                            printf("\n\n==============================================\n");
+                            printf("\033[1;31m ¡GAME OVER :C ! Un enemigo te ha atrapado \033[0m\n");
+                            printf("==============================================\n\n");
+                            printf("Presionar cualquier tecla para salir. . .");
+                            _getch();
+                            exit(0);
                         }
                     }
                 }

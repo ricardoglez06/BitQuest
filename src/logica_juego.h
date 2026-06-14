@@ -6,6 +6,7 @@ extern char mapa[MAP_SIZE][MAP_SIZE];
 
 void cargar_mapa(int nivel, int *px, int *py);
 void imprimir_ventana(int jugador_x, int jugador_y);
+void mover_enemigos(int jugador_x, int jugador_y);
 
 extern long long contar_caracteres(char* mapa, long long total_celdas, long long caracter);
 extern long long validar_movimiento(char* mapa, long long columnas, long long fila, long long col);
