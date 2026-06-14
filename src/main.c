@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
+#include <mmsystem.h>
 #include "logica_juego.h"
 
 static void enable_virtual_terminal() {
@@ -123,11 +124,13 @@ int main() {
                             monedas_recolectadas_nivel++;
                             mapa[ny][nx] = '.';
                             px = nx; py = ny;
+                            PlaySound(TEXT("SystemAsterisk"), NULL, SND_ALIAS | SND_ASYNC);
                         }
                         else if (detectar_objeto((char*)mapa, MAP_SIZE, ny, nx, 'K') == 1) {
                             tiene_llave = 1;
                             mapa[ny][nx] = '.';
                             px = nx; py = ny;
+                            PlaySound(TEXT("SystemExclamation"), NULL, SND_ALIAS | SND_ASYNC);
                         }
                         else if (detectar_objeto((char*)mapa, MAP_SIZE, ny, nx, 'D') == 1) {
                             if (tiene_llave) {
@@ -148,6 +151,7 @@ int main() {
                             int vidas_restantes =restar_vida(&vidas);
                             if(vidas_restantes >0){
                                 system("cls");
+                                PlaySound(TEXT("SystemHand"), NULL, SND_ALIAS | SND_ASYNC);
                                 printf("\n\n==============================================\n");
                                 printf("\033[1;33m ¡TE ATRAPARON! Te quedan %d vidas. \033[0m\n", vidas_restantes);
                                 printf(" El nivel se reiniciará. ¡Ten más cuidado!\n");
@@ -155,6 +159,7 @@ int main() {
                                 printf("Presionar cualquier tecla para reintentar. . .");
                                 _getch();
                                 //exit(0);
+                                system("cls");
                                 cargar_mapa(nivel_actual, &px, &py);
                                 tiene_llave = 0;
                             }else{
