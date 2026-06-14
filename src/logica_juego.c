@@ -89,17 +89,24 @@ void mover_enemigos(int jugador_x, int jugador_y){
     for (int i=0; i<MAP_SIZE; i++){
         for(int j=0; j < MAP_SIZE; j++){
             if(mapa[i][j] == 'C' && !ya_movido[i][j]){
-                int nuevo_x = j;
-                int nuevo_y = i;
-                if(jugador_x <j && mapa[i][j-1] == '.')nuevo_x = j-1;
-                else if(jugador_x > j && mapa[i][j+1] == '.')nuevo_x = j+1;
-                else if(jugador_y < i && mapa[i-1][j] == '.')nuevo_y = i-1;
-                else if(jugador_y > i && mapa[i+1][j] == '.')nuevo_y = i+1;
+                int dist_x = abs(jugador_x -j);
+                int dist_y = abs(jugador_y -i);
+                int distancia_total = dist_x + dist_y;
 
-                if (nuevo_x !=j || nuevo_y !=i){
-                    mapa[i][j]='.';
-                    mapa[nuevo_y][nuevo_x]='C';
-                    ya_movido[nuevo_y][nuevo_x]=1;                }
+                if (distancia_total <= 6){
+                    int nuevo_x = j;
+                    int nuevo_y = i;
+                    if(jugador_x <j && mapa[i][j-1] == '.')nuevo_x = j-1;
+                    else if(jugador_x > j && mapa[i][j+1] == '.')nuevo_x = j+1;
+                    else if(jugador_y < i && mapa[i-1][j] == '.')nuevo_y = i-1;
+                    else if(jugador_y > i && mapa[i+1][j] == '.')nuevo_y = i+1;
+
+                    if (nuevo_x !=j || nuevo_y !=i){
+                        mapa[i][j]='.';
+                        mapa[nuevo_y][nuevo_x]='C';
+                        ya_movido[nuevo_y][nuevo_x]=1;                
+                    }
+                }
         }   }
 }
 }
