@@ -83,3 +83,10 @@ contar_celdas_libres:
     jmp .bucle_cl
 .fin_cl:
     ret
+global restar_vida
+section .text
+restar_vida:
+    mov eax,[rcx]
+    dec eax
+    mov [rcx], eax
+    ret

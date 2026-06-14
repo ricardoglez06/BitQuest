@@ -70,6 +70,7 @@ int main() {
         int nivel_completado = 0;
         long long pasos_nivel = 0;
         long long monedas_recolectadas_nivel = 0;
+        int vidas =3;
 
         cargar_mapa(nivel_actual, &px, &py);
 
@@ -91,6 +92,9 @@ int main() {
             imprimir_ventana(px, py);
 
             printf("=======================================\n");
+            printf(" \033[1;31mVidas:\033[0m");
+            for (int v = 0; v < vidas ; v++)printf(" \033[1;31m♥ \033[0m");
+            printf("\n---------------------------------------\n");
             printf(" \033[1;32mLlave: %s\033[0m | \033[1;33mMonedas: %lld/%lld\033[0m\n", tiene_llave ? "Si" : "No", monedas_recolectadas_nivel, total_monedas_nivel);
             printf(" Pasos: \033[1;35m%lld\033[0m | WASD: Mover | Q: Salir\n", pasos_nivel);
             printf("=======================================\n");
@@ -141,15 +145,29 @@ int main() {
                         }
                         mover_enemigos(px, py);
                         if (mapa[py][px] == 'C') {
-                            system("cls");
-                            printf("\n\n==============================================\n");
-                            printf("\033[1;31m ¡GAME OVER :C ! Un enemigo te ha atrapado \033[0m\n");
-                            printf("==============================================\n\n");
-                            printf("Presionar cualquier tecla para salir. . .");
-                            _getch();
-                            exit(0);
+                            int vidas_restantes =restar_vida(&vidas);
+                            if(vidas_restantes >0){
+                                system("cls");
+                                printf("\n\n==============================================\n");
+                                printf("\033[1;33m ¡TE ATRAPARON! Te quedan %d vidas. \033[0m\n", vidas_restantes);
+                                printf(" El nivel se reiniciará. ¡Ten más cuidado!\n");
+                                printf("==============================================\n\n");
+                                printf("Presionar cualquier tecla para reintentar. . .");
+                                _getch();
+                                //exit(0);
+                                cargar_mapa(nivel_actual, &px, &py);
+                                tiene_llave = 0;
+                            }else{
+                                system("cls");
+                                printf("\n\n==============================================\n");
+                                printf("\033[1;31m ¡GAME OVER :C ! Te has quedado sin vidas. \033[0m\n");
+                                printf("==============================================\n\n");
+                                printf("Presionar cualquier tecla para salir. . .");
+                                _getch();
+                                exit(0);
+                            }
                         }
-                    }
+                    }                   
                 }
             }
         }
