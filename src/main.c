@@ -1,3 +1,7 @@
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0A00 // 0x0A00 significa Windows 10/11
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -11,16 +15,6 @@ static void enable_virtual_terminal() {
     GetConsoleMode(hOut, &dwMode);
     dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     SetConsoleMode(hOut, dwMode);
-}
-
-void ocultar_cursor_y_reset() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cursorInfo;
-    GetConsoleCursorInfo(hConsole, &cursorInfo);
-    cursorInfo.bVisible = FALSE;
-    SetConsoleCursorInfo(hConsole, &cursorInfo);
-    COORD pos = {0, 0};
-    SetConsoleCursorPosition(hConsole, pos);
 }
 
 int main() {
@@ -82,7 +76,7 @@ int main() {
         system("cls");
 
         while (!nivel_completado) {
-            ocultar_cursor_y_reset();
+            system("cls");
 
             printf("=======================================\n");
             printf("\033[1;36m   BitQuest - Nivel: %d \033[0m\n", nivel_actual);
