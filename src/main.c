@@ -46,14 +46,14 @@ int main() {
         if (opt == '2') return 0;
     }
 
-    // Selección de nivel antes de iniciar el juego (del 1 a 10)
+    // Selección de nivel antes de iniciar el juego (del 1 a 4)
     int nivel_seleccionado = 0;
-    while (nivel_seleccionado < 1 || nivel_seleccionado > 10) {
+    while (nivel_seleccionado < 1 || nivel_seleccionado > 4) {
         system("cls");
         printf("=======================================\n");
         printf("      Selecciona el nivel a jugar\n");
         printf("=======================================\n");
-        printf(" Ingrese el numero del nivel (1 al 10): ");
+        printf(" Ingrese el numero del nivel (1 al 4): ");
         if (scanf("%d", &nivel_seleccionado) != 1) {
             nivel_seleccionado = 0;
         }
@@ -64,8 +64,8 @@ int main() {
 
     system("cls");
 
-    // El ciclo principal ahora valida hasta el nivel 10
-    while (nivel_actual <= 10 && !juego_interrumpido) {
+    // El ciclo principal ahora valida hasta el nivel 4
+    while (nivel_actual <= 4 && !juego_interrumpido) {
         int px = 1, py = 1;
         int tiene_llave = 0;
         int nivel_completado = 0;
@@ -192,15 +192,15 @@ int main() {
     }
 
     system("cls");
-    // Al terminar exitosamente el nivel 10, calcula el puntaje final basado en los 10 niveles
-    if (!juego_interrumpido && nivel_actual > 10) {
-        long long puntaje_final = calcular_puntaje(monedas_totales_recolectadas, pasos_totales, 10);
+    // Al terminar exitosamente el nivel 4, calcula el puntaje final basado en los 4 niveles
+    if (!juego_interrumpido && nivel_actual > 4) {
+        long long puntaje_final = calcular_puntaje(monedas_totales_recolectadas, pasos_totales, 4);
         printf("=======\n");
         printf("\033[1;32mJuego completado\033[0m\n");
         printf("=================\n");
         printf("\033[1;33mMonedas totales recolectadas: %lld/%lld\033[0m\n", monedas_totales_recolectadas, monedas_totales_juego);
         printf("\033[1;35mPasos totales: %lld\033[0m\n", pasos_totales);
-        printf("Niveles completados: 10\n");
+        printf("Niveles completados: 4\n");
         printf("Puntaje final: %lld\n", puntaje_final);
         printf("=================\n\n");
     } else {
