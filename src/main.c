@@ -201,5 +201,8 @@ int main() {
         printf("\nJuego terminado anticipadamente.\n\n");
     }
 
+    printf("Presiona cualquier tecla para salir del juego...");
+    _getch();
+
     return 0;
 }
